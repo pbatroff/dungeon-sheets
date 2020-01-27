@@ -135,9 +135,11 @@ class ArmorClass():
         ac = armor.base_armor_class
         # calculate and apply modifiers
         if armor.dexterity_mod_max is None:
-            ac += char.dexterity.modifier
+            if not isinstance(armor, HeavyArmor):
+                ac += char.dexterity.modifier
         else:
-            ac += min(char.dexterity.modifier, armor.dexterity_mod_max)
+            if not isinstance(armor, HeavyArmor):
+                ac += min(char.dexterity.modifier, armor.dexterity_mod_max)
         if char.has_feature(NaturalArmor):
             ac = max(ac, 13 + char.dexterity.modifier)
         shield = char.shield or NoShield()
